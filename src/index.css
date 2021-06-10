@@ -1,0 +1,22 @@
+@font-face {
+  font-family: "OpenSans";
+  src: url("./OpenSans/OpenSans-Regular.ttf");
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "OpenSans", sans-serif;
+}
+html {
+  font-size: 62.5%;
+}
+body {
+  overflow-x: hidden;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}

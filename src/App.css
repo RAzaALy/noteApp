@@ -1,1 +1,132 @@
- 
+.app {
+  width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.center {
+  display: flex;
+  flex-direction: column;
+  width: 60%;
+  height: 22rem;
+  background-color: #f1f1f1;
+  background-color: #3f3d56;
+  box-shadow: 0.5rem 0.5rem 2.5rem -0.5rem rgba(0, 0, 0, 0.5);
+  border-radius: 0.5rem;
+}
+h1 {
+  color: rgb(220, 215, 215);
+  padding: 1rem 0 1rem 0;
+  margin-top: 1.5rem;
+  margin-bottom: 2rem;
+  box-shadow: 0.5rem 0.5rem 1.5rem -0.5rem rgba(0, 0, 0, 0.3);
+  text-align: center;
+  font-weight: bolder;
+  letter-spacing: 0.4rem;
+  text-transform: uppercase;
+  border-bottom: 3px solid white;
+}
+.inputBox {
+  width: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+}
+input {
+  padding: 0.6rem;
+  border: none;
+  background: transparent;
+  font-size: 1.4rem;
+  font-weight: 500;
+  width: 60%;
+  border-bottom: 0.2rem solid #6077fa;
+  outline: none;
+  color: #f6f6f6;
+  transition: all 0.3s ease-in-out;
+}
+input:focus {
+  border-bottom: 0.2rem solid #20bf6b;
+}
+.Btn {
+  cursor: pointer;
+  outline: none;
+  color: #6077fa;
+  transition: all 0.3s ease-in-out;
+}
+.Btn:hover {
+  color: #20bf6b;
+}
+.Btn:active {
+  transform: scale(0.98);
+}
+.notes {
+  width: 40%;
+  border-radius: 0.5rem;
+}
+.noteStyle {
+  padding: 1rem;
+  background-color: #3f3d56;
+  margin: 1rem 0rem;
+  border-radius: 0.5rem;
+  color: #fff;
+  box-shadow: 0.5rem 0.5rem 2.5rem -0.5rem rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  position: relative;
+  min-height: 4rem;
+}
+ol {
+  list-style: none;
+}
+ol li {
+  display: flex;
+  align-items: center;
+  color: #bab9c7;
+  margin-left: 0.5rem;
+  font-size: 1.2rem;
+  word-break: break-all;
+}
+.noteStyle .trash {
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+
+.noteStyle .trash:hover {
+  color: rgb(211, 96, 119);
+}
+.trash:active {
+  transform: scale(0.98);
+}
+.edit {
+  cursor: pointer;
+  transition: all 0.3s ease-in;
+}
+.edit:hover {
+  color: #20bf6b;
+}
+.edit:active {
+  transform: scale(0.98);
+}
+
+.clear {
+  display: block !important;
+  margin: auto !important;
+  font-size: 1.2rem !important;
+  width: 15rem;
+  transition: all 0.3s ease-in-out;
+}
+.logo {
+  color: white !important;
+  font-size: large !important;
+}
+@media (max-width: 768px) {
+    .center{
+        width: 80%;
+    }
+    .notes{
+        width: 80%;
+    }
+}
