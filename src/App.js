@@ -1,142 +1,173 @@
 import React, { useState, useEffect } from "react";
 import Button from "@material-ui/core/Button/Button";
+import Input from "@material-ui/core/Input/Input";
 import Tooltip from "@material-ui/core/Tooltip/Tooltip";
-import Edit from "@material-ui/icons/EditOutlined";
 import AddCircle from "@material-ui/icons/AddCircleOutline";
+import MoodTwoToneIcon from "@material-ui/icons/MoodTwoTone";
 import Notes from "./components/Notes.jsx";
+import Scroll from "./components/Scroll";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import "emoji-mart/css/emoji-mart.css";
+import { Picker } from "emoji-mart";
+import db from "./firebase";
+import firebase from "firebase";
 import "./App.css";
-//get data from local storage:
-const getData = () => {
-  const toDo = localStorage.getItem("toDo");
-  // console.log(toDo);
-  if (toDo) {
-    return JSON.parse(localStorage.getItem("toDo"));
-  } else {
-    return [];
-  }
-};
 
-function App() {
+const App = () => {
   const [inputList, setinputList] = useState("");
-  const [Items, setItems] = useState(getData());
-  const [toggleBtn, setToggleBtn] = useState(true);
-  const [editItem, setEditItem] = useState(null);
+  const [Items, setItems] = useState([]);
+  const [emoji, setEmoji] = useState({ showEmojis: false });
+  useEffect(() => {
+    db.collection("notes")
+      .orderBy("timestamp", "desc")
+      .onSnapshot((snapshot) => {
+        // console.log(snapshot.docs.map((doc) => doc.data().note));
+        setItems(
+          snapshot.docs.map((doc) => ({ note: doc.data().note, id: doc.id }))
+        );
+      });
+  }, []);
 
   const noteEvent = (event) => {
     setinputList(event.target.value);
   };
-  const saveItem = () => {
+
+  const save = (e) => {
+    e.preventDefault();
     if (!inputList) {
-      alert("please enter the todo?");
-    } else if (inputList && !toggleBtn) {
-      setItems(
-        Items.map((elem) => {
-          if (elem.id === editItem) {
-            return { ...elem, value: inputList };
-          }
-          return elem;
-        })
-      );
-      setToggleBtn(true);
-      setinputList("");
-      setEditItem(null);
-    } else {
-      setItems((prevItem) => {
-        const inputObj = {
-          id: new Date().getTime().toString(),
-          value: inputList,
-        };
-        return [...prevItem, inputObj];
+      toast.info(`Please first add a note.`, {
+        position: "top-right",
+        autoClose: 3000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
       });
+    } else {
+      db.collection("notes").add({
+        note: inputList,
+        timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+      });
+      setItems([...Items, inputList]);
     }
     setinputList("");
   };
-  const deleteToDo = (index) => {
-    //  console.log("deleted");
-    setItems((prevItem) => {
-      return prevItem.filter((elem) => {
-        return index !== elem.id;
+  //deletea all notes 🔥
+  function deleteAll() {
+    db.collection("notes")
+      .get()
+      .then((querySnapshot) => {
+        querySnapshot.forEach((doc) => {
+          doc.ref.delete();
+        });
+        toast.info(`Your notes has been successfully deleted.`, {
+          position: "top-right",
+          autoClose: 3000,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+        });
       });
+  }
+
+  const closeMenu = (e) => {
+    setEmoji({
+      showEmojis: false,
     });
   };
-  //Edit toDo
-  const editToDo = (id) => {
-    const editDo = Items.find((elem) => {
-      return id === elem.id;
+  const showEmojis = (e) => {
+    setEmoji({
+      showEmojis: true,
     });
-    // console.log(editToDo);
-    setToggleBtn(false);
-    setinputList(editDo.value);
-    setEditItem(id);
   };
-  //Delete all notes
-  const clearAll = () => {
-    setItems([]);
-  };
-
-  //add to local storage:
-  useEffect(() => {
-    localStorage.setItem("toDo", JSON.stringify(Items));
-  }, [Items]);
-
   return (
     <div className="app">
+      <ToastContainer style={{ fontSize: "1.4rem" }} />
       <div className="center">
         <h1>Sticky Notes</h1>
-        <div className="inputBox">
-          <input
+
+        <form onSubmit={save} className="inputBox">
+          <Input
+            className="input"
             type="text"
-            placeholder="Add a Note"
+            placeholder="add a note..."
             onChange={noteEvent}
             value={inputList}
           />
-          {toggleBtn ? (
-            <Tooltip title={<p style={{ fontSize: 12 }}>save note</p>}>
-              <AddCircle
-                className="Btn"
-                onClick={saveItem}
-                style={{ fontSize: 30 }}
-              ></AddCircle>
-            </Tooltip>
+          <Tooltip title={<p style={{ fontSize: 12 }}>save note</p>}>
+            <AddCircle
+              className="Btn"
+              style={{ fontSize: 30 }}
+              onClick={save}
+            ></AddCircle>
+          </Tooltip>
+
+          {emoji.showEmojis ? (
+            <>
+              <Picker
+                showPreview={false}
+                emoji="point_up"
+                emojiSize={30}
+                showEmojis={true}
+                emojiTooltip={true}
+                className={styles.emojiPicker}
+                title="WeChat"
+                onSelect={(emoji) => setinputList(inputList + emoji.native)}
+              />
+              <Tooltip title={<p style={{ fontSize: 12 }}>pick emoji</p>}>
+                <MoodTwoToneIcon
+                  className="Btn"
+                  style={{ fontSize: 30 }}
+                  onClick={closeMenu}
+                ></MoodTwoToneIcon>
+              </Tooltip>
+            </>
           ) : (
-            <Tooltip title={<p style={{ fontSize: 12 }}>update note</p>}>
-              <Edit
+            <Tooltip title={<p style={{ fontSize: 12 }}>pick emoji</p>}>
+              <MoodTwoToneIcon
                 className="Btn"
-                onClick={saveItem}
                 style={{ fontSize: 30 }}
-              ></Edit>
+                onClick={showEmojis}
+              ></MoodTwoToneIcon>
             </Tooltip>
           )}
-        </div>
-        <Tooltip title={<p style={{ fontSize: 12 }}>clear note</p>}>
+        </form>
+        <Tooltip title={<p style={{ fontSize: 12 }}>clear notes</p>}>
           <Button
+            onClick={deleteAll}
             className="clear"
             variant="contained"
             color="primary"
-            onClick={clearAll}
           >
-            Clear notes
+            clear noets
           </Button>
         </Tooltip>
       </div>
       <div className="notes">
         <ol>
           {/* <li>{inputList}</li> */}
-          {Items.map((toDo) => {
-            return (
-              <Notes
-                text={toDo.value}
-                key={toDo.id}
-                index={toDo.id}
-                onDelete={deleteToDo}
-                onEdit={editToDo}
-              />
-            );
+          {Items.map((note, index) => {
+            return <Notes note={note} key={index} />;
           })}
         </ol>
       </div>
+      <Scroll showBelow={120} />
     </div>
   );
-}
-
+};
 export default App;
+const styles = {
+  emojiPicker: {
+    cursor: "pointer",
+    zIndex: 343,
+    position: "fixed",
+    bottom: "3.5%",
+    right: "4%",
+    border: "none",
+    margin: 0,
+  },
+};

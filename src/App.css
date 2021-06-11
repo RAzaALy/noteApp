@@ -1,19 +1,24 @@
 .app {
   width: 100vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+  position: relative;
+  user-select: none;
 }
 .center {
   display: flex;
   flex-direction: column;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
   width: 60%;
-  height: 22rem;
+  height: 25rem;
   background-color: #f1f1f1;
   background-color: #3f3d56;
   box-shadow: 0.5rem 0.5rem 2.5rem -0.5rem rgba(0, 0, 0, 0.5);
   border-radius: 0.5rem;
+  margin: 4rem 0rem;
 }
 h1 {
   color: rgb(220, 215, 215);
@@ -34,20 +39,15 @@ h1 {
   align-items: center;
   margin: auto;
 }
-input {
-  padding: 0.6rem;
+.input {
   border: none;
   background: transparent;
-  font-size: 1.4rem;
+  font-size: 1.4rem !important;
   font-weight: 500;
-  width: 60%;
-  border-bottom: 0.2rem solid #6077fa;
+  width: 60% !important;
   outline: none;
-  color: #f6f6f6;
+  color: #f6f6f6 !important;
   transition: all 0.3s ease-in-out;
-}
-input:focus {
-  border-bottom: 0.2rem solid #20bf6b;
 }
 .Btn {
   cursor: pointer;
@@ -62,6 +62,11 @@ input:focus {
   transform: scale(0.98);
 }
 .notes {
+  z-index: -3;
+  position: absolute;
+  top: 34rem;
+  left: 50%;
+  transform: translateX(-50%);
   width: 40%;
   border-radius: 0.5rem;
 }
@@ -122,11 +127,21 @@ ol li {
   color: white !important;
   font-size: large !important;
 }
+.emoji-mart {
+  z-index: 93343 !important;
+  position: absolute !important;
+  right: 0 !important;
+  left: 0 !important;
+  bottom: -100% !important;
+  height: 100% !important;
+  width: 100% !important;
+  overflow: hidden !important;
+}
 @media (max-width: 768px) {
-    .center{
-        width: 80%;
-    }
-    .notes{
-        width: 80%;
-    }
+  .center {
+    width: 80%;
+  }
+  .notes {
+    width: 80%;
+  }
 }
