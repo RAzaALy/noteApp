@@ -30,10 +30,13 @@ const Notes = (props) => {
       fontSize: "1.4rem",
     },
     paper: {
-      height: "18rem",
+      display: "flex",
+      justifyContent: 'center',
+      alignItems: "center",
+      height: "12rem",
       backgroundColor: theme.palette.background.paper,
       position: "relative",
-      width: "50%",
+      width: "60%",
       boxShadow: theme.shadows[5],
       padding: theme.spacing(2, 4, 3),
       "@media(max-Width: 768px)": {
@@ -103,6 +106,13 @@ const Notes = (props) => {
               }}
               placeholder={props.note.note}
             />
+            <Tooltip title={<p style={{ fontSize: 12 }}>update note</p>}>
+              <Edit
+                className="Btn"
+                style={{ fontSize: 30 }}
+                onClick={updateNote}
+              ></Edit>
+            </Tooltip>
             {emoji.showEmojis ? (
               <>
                 <Picker
@@ -132,13 +142,6 @@ const Notes = (props) => {
                 ></MoodTwoToneIcon>
               </Tooltip>
             )}
-            <Tooltip title={<p style={{ fontSize: 12 }}>update note</p>}>
-              <Edit
-                className="Btn"
-                style={{ fontSize: 30 }}
-                onClick={updateNote}
-              ></Edit>
-            </Tooltip>
           </div>
         </Fade>
       </Modal>

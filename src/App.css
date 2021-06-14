@@ -137,11 +137,18 @@ ol li {
   width: 100% !important;
   overflow: hidden !important;
 }
+
 @media (max-width: 768px) {
   .center {
     width: 80%;
   }
   .notes {
     width: 80%;
+  }
+  .Btn:last-child{
+    display: none !important;
+  }
+  .emoji-mart{
+    display: none !important;
   }
 }
