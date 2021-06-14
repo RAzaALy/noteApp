@@ -137,7 +137,9 @@ ol li {
   width: 100% !important;
   overflow: hidden !important;
 }
-
+.jss10 {
+  height: 15rem !important;
+}
 @media (max-width: 768px) {
   .center {
     width: 80%;
