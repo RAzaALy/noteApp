@@ -33,7 +33,7 @@ const Notes = (props) => {
       display: "flex",
       justifyContent: 'center',
       alignItems: "center",
-      height: "12rem",
+      height: "15rem",
       backgroundColor: theme.palette.background.paper,
       position: "relative",
       width: "60%",
