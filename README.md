@@ -1,3 +1,6 @@
+# Note App (crud operation)
+<a href="https://noteapp-ea773.web.app" target="blank">Live Demo</a>
+<img src="https://imguploader.net/if/7C7ThjODPSTu.png" alt="img" />
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
